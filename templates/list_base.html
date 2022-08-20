@@ -1,0 +1,62 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block head %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'lib/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'lib/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'lib/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+<!-- DataTables  & Plugins -->
+<script src="{% static 'lib/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'lib/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'lib/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'lib/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+{% endblock head %}    
+
+{% block content %}
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-search"></i>{{ title }}</h3>
+    </div>
+    <div class="card-body">
+        <table class="table" id="data">
+            <thead>
+                {% block columns %}
+                  
+                {% endblock columns %}
+            </thead>
+            <tbody>
+                {% block rows %}
+                    
+                {% endblock rows %}          
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> Nuevo registro</button>
+    </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script type="application/javascript">
+    $(function() {
+        $('#data').DataTable({
+            responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            buttons: ['copy','csv','excel','pdf','print','colvis']
+        }).buttons().container().appendTo('#data_wrapper .col-md-6:eq(0)');
+    });
+</script>
+{% endblock javascript %}
