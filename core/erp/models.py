@@ -15,7 +15,8 @@ class Type(models.Model):
         ordering = ['id']
         
 class Category(models.Model):
-    name = models.CharField(max_length=150, verbose_name='Nombre')
+    name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
+    description = models.CharField(max_length=250, blank=True, null=True, verbose_name='Descripción')
     
     def __str__(self):
         return self.name

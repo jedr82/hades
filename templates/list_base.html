@@ -21,6 +21,7 @@
 <script src="{% static 'lib/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
 <script src="{% static 'lib/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'lib/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
 {% endblock head %}    
 
 {% block content %}
@@ -43,7 +44,7 @@
         </table>
     </div>
     <div class="card-footer">
-        <button class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> Nuevo registro</button>
+        <a href="{{ create_url }}" class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> Nuevo registro</a>
     </div>
 </div>
 {% endblock content %}

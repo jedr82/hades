@@ -8,4 +8,5 @@ urlpatterns = [
 
     #Category
     path('category/list/', CategoryListView.as_view(), name='category_list'),
+    path('category/add/', CategoryCreateView.as_view(), name='category_new'),
 ]
