@@ -14,8 +14,8 @@
             <td>{{ c.id }}</td>
             <td>{{ c.name }}</td>
             <td>
-                <button type="button" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></button>
+                <a href="{% url 'erp_app:category_edit' c.id %}" type="button" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'erp_app:category_delete' c.id %}" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
     {% endfor %}
