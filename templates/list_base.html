@@ -22,6 +22,9 @@
 <script src="{% static 'lib/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'lib/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 
+
+{% block headlist %} {% endblock headlist %}    
+
 {% endblock head %}    
 
 {% block content %}
@@ -53,11 +56,12 @@
 <script type="application/javascript">
     $(function() {
         $('#data').DataTable({
+            dom: 'Bfrtip',
             responsive: true,
             lengthChange: false,
             autoWidth: false,
             buttons: ['copy','csv','excel','pdf','print','colvis']
-        }).buttons().container().appendTo('#data_wrapper .col-md-6:eq(0)');
+        });
     });
 </script>
 {% endblock javascript %}
