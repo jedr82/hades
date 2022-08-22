@@ -7,7 +7,7 @@ from .forms import CategoryForm
 
 # Create your views here.
 class HomePage(generic.TemplateView):
-    template_name = 'index.html'
+    template_name = 'homepage/index.html'
 
 class CategoryListView2(generic.ListView):
     model = Category
