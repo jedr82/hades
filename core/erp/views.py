@@ -1,14 +1,17 @@
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from .models import *
 from .forms import CategoryForm
 
-# Create your views here.
+# Dashboard
 class Dashboard(generic.TemplateView):
     template_name = 'layout/collapsed_sidebar/index.html'
 
+
+#Category
 class CategoryListView2(generic.ListView):
     model = Category
     template_name = 'category/list2.html'
@@ -21,7 +24,7 @@ class CategoryListView2(generic.ListView):
         context['entity'] = 'Categorías'
         return context
 
-class CategoryListView(generic.ListView):
+class CategoryListView(LoginRequiredMixin,generic.ListView):
     model = Category
     template_name = 'category/list.html'
 
@@ -51,7 +54,7 @@ class CategoryListView(generic.ListView):
         context['entity'] = 'Categorías'
         return context
 
-class CategoryCreateView(generic.CreateView):
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
@@ -78,7 +81,7 @@ class CategoryCreateView(generic.CreateView):
         context['action'] = 'add'
         return context
 
-class CategoryUpdateView(generic.UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
@@ -109,7 +112,8 @@ class CategoryUpdateView(generic.UpdateView):
         context['action'] = 'edit'
         return context
 
-class CategoryDeleteView(generic.DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, generic.DeleteView):
+
     model = Category
     template_name = 'category/delete.html'
     success_url = reverse_lazy('erp_app:category_list')
@@ -132,4 +136,35 @@ class CategoryDeleteView(generic.DeleteView):
         context['title'] = 'Eliminación de una categoría'
         context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp_app:category_list')
+        return context
+
+#Products
+class ProductListView(LoginRequiredMixin, generic.ListView):
+    model = Product
+    template_name = 'product/list.html'
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request,*arg,**kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchData':
+                data = []
+                for i in Product.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error al cargar la tabla'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Categorías'
+        context['create_url'] = reverse_lazy('erp_app:category_new')
+        context['list_url'] = reverse_lazy('erp_app:category_list')
+        context['entity'] = 'Categorías'
         return context
