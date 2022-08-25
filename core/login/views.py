@@ -22,7 +22,7 @@ class LoginView(LoginView):
 class LoginFormView(FormView):
     form_class = AuthenticationForm
     template_name = 'login/login.html'
-    success_url = reverse_lazy('erp_app:category_list')
+    success_url = reverse_lazy('dashboard')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:

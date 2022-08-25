@@ -6,7 +6,7 @@ from .models import *
 from .forms import CategoryForm
 
 # Create your views here.
-class HomePage(generic.TemplateView):
+class Dashboard(generic.TemplateView):
     template_name = 'layout/collapsed_sidebar/index.html'
 
 class CategoryListView2(generic.ListView):

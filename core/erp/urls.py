@@ -4,7 +4,7 @@ from .views import *
 app_name = 'erp_app'
 
 urlpatterns = [
-    path('', HomePage.as_view(), name='home'),
+    path('', Dashboard.as_view(), name='dashboard'),
 
     #Category
     path('category/list/', CategoryListView.as_view(), name='category_list'),

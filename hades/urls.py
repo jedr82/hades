@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.homepage.views import HomePage
+from core.erp.views import Dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePage.as_view(), name='homepage'),
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('', include('core.erp.urls','erp_app')),
     path('', include('core.login.urls','login_app')),
 ]
