@@ -1,6 +1,5 @@
 {% extends 'layout/collapsed_sidebar/body.html' %}
 
-
 {% block content %}
 <form method="POST" action="."> {% csrf_token %}
     <input type="hidden" name="action" value="{{ action }}">
@@ -18,6 +17,9 @@
             <button type="submit" class="btn btn-primary btn-flat">
                 <i class="fas fa-save"></i> Guardar registro
             </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
         </div>
     </div>
 </form>
@@ -36,24 +38,11 @@
         });
     {% endif %}
 
-    $('form').on('submit', function(e) {
+    $('form').on('submit', function (e) {
         e.preventDefault();
         var parameters=$(this).serializeArray();
-        $.ajax({
-            url: window.location.pathname,
-            type: 'POST',
-            data: parameters,
-            dataType: 'json'
-        }).done(function (data) {
-            if(!data.hasOwnProperty('error')) {
-                location.href = '{{ list_url }}';
-                return false;
-            }
-            alerta_error(data.error);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus+ ': '+errorThrown);
-        }).always(function (data) {
-
+        submit_with_ajax(window.location.pathname, parameters, function () {
+            location.href = '{{ list_url }}';
         });
     });
 </script>
