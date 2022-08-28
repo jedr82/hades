@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<form enctype="multipart/form-data" method="POST"> 
+<form enctype="multipart/form-data" method="POST" id="formulario"> 
     <div class='card card-default'>
         <div class="card-header">
             <h3 class="card-title">
@@ -46,14 +46,16 @@
         });
     {% endif %}
 
-    $('form').on('submit', function (e) {
+    $('#formulario').on('submit', function (e) {
         e.preventDefault();
         //var parameters=$(this).serializeArray();
-        var parameters = new FormData($('form'));
+        var parameters = new FormData($('#formulario')[0]);
+
         parameters.forEach(function (value,key) {
             console.log(key+': '+value);
         })
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de confirmar?', parameters, function () {
+        
+        submit_with_ajax(window.location.pathname,'Notificación','¿Desea confirmar la acción?',parameters, function () {
             location.href = '{{ list_url }}';
         });
     });

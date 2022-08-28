@@ -175,17 +175,20 @@ class ProductoCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = 'product/create.html'
     success_url = reverse_lazy('erp_app:product_list')
 
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self,request,*args,**kwargs):
         data = {}
         try:
             print(request.POST)
             print(request.FILES)
-            #action = request.POST['action']
-            #if action == 'add':
-            #    form = self.get_form()
-            #    data = form.save()
-            #else:
-            #    data['error'] = 'No ha ingresado ninguna opción'
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
