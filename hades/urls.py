@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 from core.homepage.views import HomePage
 from core.erp.views import Dashboard
 
@@ -25,3 +27,5 @@ urlpatterns = [
     path('', include('core.erp.urls','erp_app')),
     path('', include('core.login.urls','login_app')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

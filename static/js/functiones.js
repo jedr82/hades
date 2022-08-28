@@ -17,12 +17,12 @@ function alerta_error(obj) {
     });
 }
 
-function submit_with_ajax(url, parameters, callback) {
+function submit_with_ajax(url, title, content, parameters, callback) {
     $.confirm({
         theme: 'material',
-        title: 'Confirmación',
+        title: title,
         icon: 'fa fa-info',
-        content: '¿Estás seguro de realizar la siguiente acción?',
+        content: content,
         columnClass: 'small',
         typeAnimated: true,
         cancelButtonClass: 'btn-primary',
@@ -37,7 +37,10 @@ function submit_with_ajax(url, parameters, callback) {
                         url: url, //window.location.pathname
                         type: 'POST',
                         data: parameters,
-                        dataType: 'json'
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        cache: false,
                     }).done(function (data) {
                         console.log(data);
                         if (!data.hasOwnProperty('error')) {

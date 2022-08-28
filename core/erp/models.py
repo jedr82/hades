@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.forms import model_to_dict
 from datetime import datetime
 
@@ -58,15 +59,17 @@ class Employee(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cate = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
+    image = models.ImageField(upload_to='product/', null=True, blank=True)
     pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 
     def __str__(self):
         return self.name
+
+    def get_image(self):
+        if self.image:
+            return '{}{}'.format(settings.MEDIA_URL, self.image)
+        return '{}{}'.format(settings.STATIC_URL, 'img/empty.png')
     
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
         
     class Meta:
         verbose_name = 'Producto'

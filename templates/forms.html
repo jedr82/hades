@@ -1,7 +1,7 @@
 {% extends 'layout/collapsed_sidebar/body.html' %}
 
 {% block content %}
-<form method="POST" action="."> {% csrf_token %}
+<form enctype="multipart/form-data" method="POST"> {% csrf_token %}
     <input type="hidden" name="action" value="{{ action }}">
     <div class='card card-default'>
         <div class="card-header">
@@ -23,6 +23,8 @@
         </div>
     </div>
 </form>
+
+{% block js %}
 <script>
     {% if form.errors %}
         var errors = '';
@@ -40,10 +42,15 @@
 
     $('form').on('submit', function (e) {
         e.preventDefault();
-        var parameters=$(this).serializeArray();
-        submit_with_ajax(window.location.pathname, parameters, function () {
+        //var parameters=$(this).serializeArray();
+        var parameters = new FormData($('form'));
+        parameters.forEach(function (value,key) {
+            console.log(key+': '+value);
+        })
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de confirmar?', parameters, function () {
             location.href = '{{ list_url }}';
         });
     });
 </script>
+{% endblock js %}
 {% endblock content %}

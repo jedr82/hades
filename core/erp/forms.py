@@ -51,26 +51,19 @@ class ProductForm(ModelForm):
         widgets = {
             'name': TextInput(
                 attrs={
-                    'placeholder':'Ingrese un nombre'
+                    'placeholder':'Ingrese un nombre',
                 }
             ),
-            'description': Textarea(
-                attrs={
-                    'placeholder':'Detalle de la descripción',
-                    'rows': 3,
-                    'cols': 3
-                }
-            )
         }
 
-    def save(self, commit=True):
-        data = {}
-        form = super()
-        try:
-            if form.is_valid():
-                form.save()
-            else:
-                data['error'] = form.errors
-        except Exception as e:
-            data['error'] = str(e)
-        return data
+    #def save(self, commit=True):
+    #    data = {}
+    #    form = super()
+    #    try:
+    #        if form.is_valid():
+    #            form.save()
+    #        else:
+    #            data['error'] = form.errors
+    #    except Exception as e:
+    #        data['error'] = str(e)
+    #    return data
