@@ -58,9 +58,9 @@ class Employee(models.Model):
     
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
-    cate = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='product/', null=True, blank=True)
-    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    cate = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categoría')
+    image = models.ImageField(upload_to='product/', null=True, blank=True, verbose_name='Imagen')
+    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Precio de Venta')
 
     def __str__(self):
         return self.name
