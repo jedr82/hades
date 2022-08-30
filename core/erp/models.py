@@ -65,6 +65,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['cate'] = self.cate.toJSON()
+        item['image'] = self.get_image()
+        item['pvp'] = format(self.pvp, '.2f')
+        return item
+
     def get_image(self):
         if self.image:
             return '{}{}'.format(settings.MEDIA_URL, self.image)

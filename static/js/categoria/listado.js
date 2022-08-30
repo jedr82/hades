@@ -1,6 +1,5 @@
 $(function () {
     $('#data').DataTable({
-        dom: 'Bfrtip',
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -31,7 +30,6 @@ $(function () {
                 }
             },
         ],
-        buttons: ['csv','excel','pdf','print','colvis'],
         initComplete: function (settings, json) {
             
         }

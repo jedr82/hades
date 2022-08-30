@@ -1,6 +1,10 @@
 {% extends 'list_base.html' %}
 {% load static %}
 
+{% block headlist %}
+    <script src="{% static 'js/producto/listado.js' %}"></script>
+{% endblock headlist %}
+    
 {% block columns %}
 <tr>
     <th scope="col" style="width: 5%;">ID</th>
@@ -12,24 +16,7 @@
 </tr>
 {% endblock columns %}
 
-{% block rows %}
-    {% for obj in object_list %}
-        <tr>
-            <td>{{ obj.id }}</td>
-            <td>{{ obj.name }}</td>
-            <td>{{ obj.cate }}</td>
-            <td class="text-center">
-                <img src="{{ obj.get_image }}" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">
-            </td>
-            <td>{{ obj.pvp }}</td>
-            <td class="text-center">
-                <a href="{% url 'erp_app:product_edit' obj.id %}" class="btn btn-warning btn-xs btn-flat">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'erp_app:product_delete' obj.id %}" class="btn btn-danger btn-xs btn-flat">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </td>
-        </tr>
-    {% endfor %}
-{% endblock rows %}
+{% block javascript %}
+
+{% endblock javascript %}
+    

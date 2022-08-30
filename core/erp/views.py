@@ -12,18 +12,6 @@ class Dashboard(generic.TemplateView):
 
 
 #Category
-class CategoryListView2(generic.ListView):
-    model = Category
-    template_name = 'category/list2.html'
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Categorías'
-        context['create_url'] = reverse_lazy('erp_app:category_new')
-        context['list_url'] = reverse_lazy('erp_app:category_list')
-        context['entity'] = 'Categorías'
-        return context
-
 class CategoryListView(LoginRequiredMixin,generic.ListView):
     model = Category
     template_name = 'category/list.html'
