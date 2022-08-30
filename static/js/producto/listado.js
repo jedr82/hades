@@ -1,8 +1,5 @@
 $(function () {
     $('#data').DataTable({
-        language: {
-            thousands: ".",
-        },
         responsive: true,
         autoWidth: false,
         destroy: true,
