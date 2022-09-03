@@ -21,7 +21,7 @@ function getData() {
             {"data":"dni"},
             {"data":"address"},
             {"data":"date_birthday"},
-            {"data":"gender"},
+            {"data":"gender.name"},
             {"data":"id"},
         ],
         columnDefs: [
@@ -47,17 +47,22 @@ $(function () {
 
     $('.btnAdd').on('click', function () {
         $('input[name="action"]').val('add');
-        //$('form')[0].reset();
+        $('#formCliente')[0].reset();
         $('#myModalClient').modal('show');
     });
 
+    $('.btnUpd').on('click', function () {
+        tblClient.ajax.reload();
+        //getData();
+    });
+
     $('#myModalClient').on('shown.bs.modal', function () {
-        $('form')[0].reset();
+        $('#formCliente')[0].reset();
     });
 
     $('form').on('submit', function (e) {
         e.preventDefault();
-        var parameters = new FormData(this);
+        var parameters = new FormData($('#formCliente')[0]);
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea confirmar la creación de un nuevo cliente?', parameters, function () {
             $('#myModalClient').modal('hide');
             tblClient.ajax.reload();

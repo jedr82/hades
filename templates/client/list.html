@@ -12,8 +12,8 @@
     <th scope="col" style="width: 20%;">Nombres</th>
     <th scope="col" style="width: 20%;">Apellidos</th>
     <th scope="col" style="width: 15%;">DNI</th>
-    <th scope="col" style="width: 25%;">Dirección</th>
-    <th scope="col" style="width: 5%;">Fecha de Nac.</th>
+    <th scope="col" style="width: 20%;">Dirección</th>
+    <th scope="col" style="width: 10%;">Fecha de Nac.</th>
     <th scope="col" style="width: 5%;">Sexo</th>
     <th scope="col" style="width: 5%;">Opciones</th>
 </tr>
@@ -22,15 +22,15 @@
 {% block buttons_list %}
     <a class="btn btn-primary btn-flat btnAdd">
         <i class="fas fa-plus"></i> Nuevo registro</a>
-    <a href="{{ list_url }}" class="btn btn-success btn-flat">
+    <a class="btn btn-success btn-flat btnUpd">
         <i class="fas fa-sync"></i> Actualizar</a>
 {% endblock buttons_list %}
 
 {% block javascript %}
 <!--Modal-->
-<div class="modal fade" id="myModalClient">
-    <form action="." method="post" enctype="multipart/form-data">
-        <div class="modal-dialog">
+<div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="." method="post" enctype="multipart/form-data" id="formCliente">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">{{ title }}</h4>
@@ -50,8 +50,7 @@
                 </div>
               </div>
               <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> GUARDAR</button>
+                <button type="submit" class="btn btn-primary btn-flat btn-block"><i class="fas fa-save"></i> GUARDAR</button>
               </div>
             </div>
             <!-- /.modal-content -->

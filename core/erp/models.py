@@ -93,7 +93,7 @@ class Client(models.Model):
     gender = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
 
     def __str__(self):
-        return '{}{}'.format(self.names, self.surnames)
+        return '{} {}'.format(self.names, self.surnames)
 
     def toJSON(self):
         item = model_to_dict(self)
