@@ -4,12 +4,72 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from .models import *
-from .forms import CategoryForm, ProductForm
+from .forms import CategoryForm, ProductForm, TestForm, TestForm2
 
 # Dashboard
 class Dashboard(generic.TemplateView):
     template_name = 'layout/collapsed_sidebar/index.html'
 
+#TestView
+class TestView(generic.TemplateView):
+    template_name = 'test.html'
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_product_id':
+                data = []
+                for i in Product.objects.filter(cate_id=request.POST['id']):
+                    data.append({'id': i.id, 'name': i.name})
+
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Select Anidados | Django'
+        context['form'] = TestForm()
+        return context
+
+#TestView2
+class TestView2(generic.TemplateView):
+    template_name = 'test2.html'
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_product_id':
+                data = [{'id':'','text':'------'}]
+                for i in Product.objects.filter(cate_id=request.POST['id']):
+                    data.append({'id': i.id, 'text': i.name})
+
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Select Anidados con Select2| Django'
+        context['form'] = TestForm2()
+        return context
+    
 
 #Category
 class CategoryListView(LoginRequiredMixin,generic.ListView):

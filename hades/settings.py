@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'core.erp',
     'core.homepage',
     'core.login',
+    'core.user',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,5 @@ LOGIN_URL = '/login/'
 
 MEDIA_ROOT = BASE_DIR / 'static/media'
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'user.User'

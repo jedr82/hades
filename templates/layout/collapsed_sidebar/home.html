@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'lib/dist/css/adminlte.min.css' %}">
 
-  <!-- REQUIRED SCRIPTS --> 
+  <!-- REQUIRED SCRIPTS -->
   <!-- jQuery -->
   <script src="{% static 'lib/plugins/jquery/jquery.min.js' %}"></script>
   <!-- Bootstrap 4 -->
@@ -28,11 +29,10 @@
   <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
   <!-- Funciones JS -->
   <script src="{% static 'js/functiones.js' %}"></script>
+
+  {% block head %} {% endblock head %}
   
-  {% block head %}
-    
-  {% endblock head %}
-    
+  {% block extrahead %}{% endblock extrahead %}
 </head>
 
 {% block body %}
