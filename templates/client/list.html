@@ -1,0 +1,64 @@
+{% extends 'list_base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block headlist %}
+    <script src="{% static 'js/cliente/listado.js' %}"></script>
+{% endblock headlist %}
+    
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 5%;">ID</th>
+    <th scope="col" style="width: 20%;">Nombres</th>
+    <th scope="col" style="width: 20%;">Apellidos</th>
+    <th scope="col" style="width: 15%;">DNI</th>
+    <th scope="col" style="width: 25%;">Dirección</th>
+    <th scope="col" style="width: 5%;">Fecha de Nac.</th>
+    <th scope="col" style="width: 5%;">Sexo</th>
+    <th scope="col" style="width: 5%;">Opciones</th>
+</tr>
+{% endblock columns %}
+
+{% block buttons_list %}
+    <a class="btn btn-primary btn-flat btnAdd">
+        <i class="fas fa-plus"></i> Nuevo registro</a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat">
+        <i class="fas fa-sync"></i> Actualizar</a>
+{% endblock buttons_list %}
+
+{% block javascript %}
+<!--Modal-->
+<div class="modal fade" id="myModalClient">
+    <form action="." method="post" enctype="multipart/form-data">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                    <input name="action" type="hidden" value="add">
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <label for="email">{{ field.label }}</label>
+                            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                    {% endfor %}
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> GUARDAR</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+    </form>
+  </div>
+  <!-- /.modal -->
+{% endblock javascript %}
+    

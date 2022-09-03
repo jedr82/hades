@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.forms import model_to_dict
 from datetime import datetime
+from .choices import gender_choices
 
 # Create your models here.
 class Type(models.Model):
@@ -81,4 +82,26 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
+        ordering = ['id']
+
+class Client(models.Model):
+    names = models.CharField(max_length=150, verbose_name='Nombres')
+    surnames = models.CharField(max_length=150, verbose_name='Apellidos')
+    dni = models.CharField(max_length=10, unique=True, verbose_name='DNI')
+    date_birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
+    address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
+    gender = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
+
+    def __str__(self):
+        return '{}{}'.format(self.names, self.surnames)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['gender'] = {'id':self.gender,'name':self.get_gender_display()}
+        item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        return item
+
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
         ordering = ['id']

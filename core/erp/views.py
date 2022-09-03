@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from .models import *
-from .forms import CategoryForm, ProductForm, TestForm, TestForm2
+from .forms import CategoryForm, ClientForm, ProductForm, TestForm, TestForm2
 
 # Dashboard
 class Dashboard(generic.TemplateView):
@@ -303,4 +303,44 @@ class ProductoDeleteView(LoginRequiredMixin, generic.DeleteView):
         context['title'] = 'Eliminación de un producto'
         context['entity'] = 'Producto'
         context['list_url'] = reverse_lazy('erp_app:product_list')
+        return context
+
+#Clients
+class ClientView(LoginRequiredMixin, generic.TemplateView):
+    model = Client
+    template_name = 'client/list.html'
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchData':
+                data = []
+                for i in Client.objects.all():
+                    data.append(i.toJSON())
+            elif action == "add":
+                cli = Client()
+                cli.names = request.POST['names']
+                cli.surnames = request.POST['surnames']
+                cli.dni = request.POST['dni']
+                cli.date_birthday = request.POST['date_birthday']
+                cli.address = request.POST['address']
+                cli.gender = request.POST['gender']
+                cli.save()
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Crear nuevo cliente'
+        context['form'] = ClientForm()
+        context['list_url'] = reverse_lazy('erp_app:client')
+        context['entity'] = 'Clientes'
         return context
