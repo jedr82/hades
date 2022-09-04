@@ -57,7 +57,12 @@ class TestView2(generic.TemplateView):
                 data = [{'id':'','text':'------'}]
                 for i in Product.objects.filter(cate_id=request.POST['id']):
                     data.append({'id': i.id, 'text': i.name})
-
+            elif action == 'autocomplete':
+                data = []
+                for i in Category.objects.filter(name__icontains=request.POST['term']):
+                    item = i.toJSON()
+                    item['value'] = i.name
+                    data.append(item)
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -331,6 +336,18 @@ class ClientView(LoginRequiredMixin, generic.TemplateView):
                 cli.address = request.POST['address']
                 cli.gender = request.POST['gender']
                 cli.save()
+            elif action == "edit":
+                cli = Client.objects.get(pk=request.POST['id'])
+                cli.names = request.POST['names']
+                cli.surnames = request.POST['surnames']
+                cli.dni = request.POST['dni']
+                cli.date_birthday = request.POST['date_birthday']
+                cli.address = request.POST['address']
+                cli.gender = request.POST['gender']
+                cli.save()
+            elif action == 'delete':
+                cli = Client.objects.get(pk=request.POST['id'])
+                cli.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
