@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from .models import *
-from .forms import CategoryForm, ClientForm, ProductForm, TestForm, TestForm2
+from .forms import CategoryForm, ClientForm, ProductForm, SaleForm, TestForm, TestForm2
 
 # Dashboard
 class Dashboard(generic.TemplateView):
@@ -62,6 +62,12 @@ class TestView2(generic.TemplateView):
                 for i in Category.objects.filter(name__icontains=request.POST['term']):
                     item = i.toJSON()
                     item['value'] = i.name
+                    data.append(item)
+            elif action == 'autocomplete2':
+                data = []
+                for i in Category.objects.filter(name__icontains=request.POST['term']):
+                    item = i.toJSON()
+                    item['text'] = i.name
                     data.append(item)
             else:
                 data['error'] = 'Ha ocurrido un error'
@@ -360,4 +366,34 @@ class ClientView(LoginRequiredMixin, generic.TemplateView):
         context['form'] = ClientForm()
         context['list_url'] = reverse_lazy('erp_app:client')
         context['entity'] = 'Clientes'
+        return context
+
+class SaleCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Sale
+    form_class = SaleForm
+    template_name = 'sale/create.html'
+    success_url = reverse_lazy('erp_app:dashboard')
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No se ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Creación de una Venta'
+        context['entity'] = 'Ventas'
+        context['list_url'] = self.success_url
+        context['action'] = 'add'
         return context
