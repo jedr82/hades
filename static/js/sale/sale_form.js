@@ -7,12 +7,31 @@ var vents = {
         total: 0.00,
         products : []
     },
+    calculate_invoice: function () {
+        var subtotal = 0.00;
+        var iva = $('input[name="iva"]').val();
+        $.each(this.items.products, function (pos, dict) {
+            dict.subtotal = dict.cant * parseFloat(dict.pvp);
+            subtotal += dict.subtotal;
+        });
+
+        this.items.subtotal = subtotal;
+        this.items.iva = this.items.subtotal * iva;
+        this.items.total = this.items.subtotal + this.items.iva;
+
+        $('input[name="subtotal"]').val(this.items.subtotal.toFixed(2));
+        $('input[name="ivacalc"]').val(this.items.iva.toFixed(2));
+        $('input[name="total"]').val(this.items.total.toFixed(2));
+    },
     add: function (item) {
         this.items.products.push(item);
         this.list();
     },
     list: function () {
+        this.calculate_invoice();
         $('#tblProducts').DataTable({
+            searching: false,
+            paging: false,
             responsive: true,
             autoWidth: false,
             destroy: true,
@@ -76,12 +95,14 @@ $(function () {
     $('input[name="iva"]').TouchSpin({
         min: 0,
         max: 100,
-        step: 0.1,
+        step: 0.01,
         decimals: 2,
         bootstat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    });
+    }).on('change', function () {
+        vents.calculate_invoice();
+    }).val(0.1);
 
     //Search products
     $('input[name="search"]').autocomplete({
