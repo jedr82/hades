@@ -374,6 +374,7 @@ class SaleCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = 'sale/create.html'
     success_url = reverse_lazy('erp_app:dashboard')
 
+    @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -381,14 +382,18 @@ class SaleCreateView(LoginRequiredMixin, generic.CreateView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'add':
-                form = self.get_form()
-                data = form.save()
+            if action == 'search_products':
+                data = []
+                prods = Product.objects.filter(name__icontains=request.POST['term'])
+                for i in prods:
+                    item = i.toJSON()
+                    item['value'] = i.name
+                    data.append(item)
             else:
                 data['error'] = 'No se ha ingresado a ninguna opción'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

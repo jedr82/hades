@@ -2,11 +2,27 @@
 {% load static %}
 
 {% block headlist %}
+<!-- JQuery-Autocomplete -->
+<link rel="stylesheet" href="{% static 'lib/plugins/jquery-ui/jquery-ui.min.css' %}">
+<script src="{% static 'lib/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+
 <!-- Select2 -->
 <link rel="stylesheet" href="{% static 'lib/plugins/select2/css/select2.min.css' %}">
 <link rel="stylesheet" href="{% static 'lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
 <script src="{% static 'lib/plugins/select2/js/select2.min.js' %}"></script>
 <script src="{% static 'lib/plugins/select2/js/i18n/es.js' %}"></script>
+
+<!-- Moment -->
+<script src="{% static 'lib/plugins/moment/moment-with-locales.min.js' %}"></script>
+
+<!-- TempusDominus -->
+<link rel="stylesheet" href="{% static 'lib/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+<script src="{% static 'lib/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+<!-- Touchspin -->
+<link rel="stylesheet" href="{% static 'lib/plugins/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}">
+<script src="{% static 'lib/plugins/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+
 <script src="{% static 'js/sale/sale_form.js' %}"></script>
 {% endblock headlist %}
     
@@ -18,7 +34,7 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="card card-secondary">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-boxes"></i> Detalle de Productos</h3>
@@ -27,7 +43,8 @@
                             <div class="form-group">
                                 <label>Buscador de productos:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Ingrese una descripción del producto" autocomplete="off">
+                                    <input type="text" class="form-control" placeholder="Ingrese una descripción del producto" 
+                                    autocomplete="off" name="search">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-danger btn-flat">
                                             <i class="fas fa-times"></i></button>
@@ -35,7 +52,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-bordered" id="data">
+                            <table class="table table-bordered" id="tblProducts">
                                 <thead>
                                     <tr>
                                         <th>Eliminar</th>
@@ -53,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card card-secondary">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-receipt"></i> Datos de la Factura</h3>
