@@ -387,7 +387,8 @@ class SaleCreateView(LoginRequiredMixin, generic.CreateView):
                 prods = Product.objects.filter(name__icontains=request.POST['term'])
                 for i in prods:
                     item = i.toJSON()
-                    item['value'] = i.name
+                    #item['value'] = i.name
+                    item['text'] = i.name
                     data.append(item)
             else:
                 data['error'] = 'No se ha ingresado a ninguna opción'

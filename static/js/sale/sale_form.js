@@ -105,7 +105,7 @@ $(function () {
     }).val(0.1);
 
     //Search products
-    $('input[name="search"]').autocomplete({
+    /*$('input[name="search"]').autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: window.location.pathname,
@@ -132,5 +132,35 @@ $(function () {
             console.log(vents.items);
             $(this).val('');
         }
+    });*/
+
+    $('select[name="searchP"]').select2({
+        theme: 'bootstrap4',
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type. 'POST',
+            url: window.location.pathname,
+            data: function (params) {
+                var queryParameters = {
+                    term: params.term,
+                    action: 'search_products'
+                }
+                return queryParameters;
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese una descripción',
+        minimumInputLength: 1,
+    }).on('select2:select2', function (e) {
+        var data = e.params.data;
+        data.cant = 1;
+        data.subtotal = 0.00;
+        vents.add(data);
     });
-})
+});
